@@ -1,0 +1,26 @@
+<mat-spinner *ngIf="initializing"
+             [diameter]="50"></mat-spinner>
+<zxing-scanner [ngClass]="{hidden: !hasDevices || !hasPermission}"
+               [formats]="formats"
+               (camerasFound)="onCamerasFound($event)"
+               (camerasNotFound)="onCamerasNotFound()"
+               (permissionResponse)="onHasPermission($event)"
+               (scanSuccess)="scanComplete($event)"></zxing-scanner>
+
+<ng-container *ngIf="hasPermission === false">
+    <h2>You denied the camera permission, we can't scan anything without it.</h2>
+</ng-container>
+
+<ng-container *ngIf="!initializing && hasPermission && hasDevices === undefined">
+    <h2>Couldn't check for devices.</h2>
+    <blockquote>
+        This may be caused by some security error.
+    </blockquote>
+</ng-container>
+
+<ng-container *ngIf="hasDevices === false">
+    <h2>No devices were found.</h2>
+    <blockquote>
+        Your device has no media devices attached to.
+    </blockquote>
+</ng-container>
