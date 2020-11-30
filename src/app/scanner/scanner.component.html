@@ -1,11 +1,22 @@
-<mat-spinner *ngIf="initializing"
-             [diameter]="50"></mat-spinner>
-<zxing-scanner [ngClass]="{hidden: !hasDevices || !hasPermission}"
-               [formats]="formats"
-               (camerasFound)="onCamerasFound($event)"
-               (camerasNotFound)="onCamerasNotFound()"
-               (permissionResponse)="onHasPermission($event)"
-               (scanSuccess)="scanComplete($event)"></zxing-scanner>
+<div *ngIf="initializing"
+     class="spinner-wrap">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>
+<div class="scanner-wrap">
+    <zxing-scanner class="scanner"
+                   [ngClass]="{hidden: !hasDevices || !hasPermission}"
+                   [formats]="formats"
+                   [(device)]="currentDevice"
+                   (camerasFound)="onCamerasFound($event)"
+                   (camerasNotFound)="onCamerasNotFound()"
+                   (permissionResponse)="onHasPermission($event)"
+                   (scanSuccess)="scanComplete($event)"></zxing-scanner>
+    <div *ngIf="result"
+         class="result">{{result}}</div>
+    <a routerLink="/">
+        <mat-icon>close</mat-icon>
+    </a>
+</div>
 
 <ng-container *ngIf="hasPermission === false">
     <h2>You denied the camera permission, we can't scan anything without it.</h2>

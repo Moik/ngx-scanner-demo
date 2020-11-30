@@ -9,16 +9,14 @@ import { SoundService } from '../services/sound.service';
   styleUrls: ['./scanner.component.scss']
 })
 export class ScannerComponent {
-
   formats: BarcodeFormat[] = [BarcodeFormat.CODE_128, BarcodeFormat.CODE_39, BarcodeFormat.ITF];
   currentDevice = null;
   hasDevices = false;
   hasPermission = false;
   initializing = true;
+  result = '';
 
-  constructor(
-    private soundService: SoundService
-  ) {}
+  constructor(private soundService: SoundService) {}
 
   onCamerasFound(devices: MediaDeviceInfo[]): void {
     this.hasDevices = Boolean(devices && devices.length);
@@ -39,7 +37,7 @@ export class ScannerComponent {
 
   scanComplete(scan: string): void {
     this.soundService.beep();
-    console.log(scan);
+    this.result = scan;
   }
 
 }
